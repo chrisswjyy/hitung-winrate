@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Penghitung Winrate MLBB</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0a1f44, #103f74);
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #00bcd4;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    input, button {
+      width: 90%;
+      max-width: 400px;
+      padding: 12px;
+      margin: 10px auto;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      display: block;
+      box-sizing: border-box;
+    }
+
+    input {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    button {
+      background-color: #00bcd4;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #00e6cb;
+    }
+
+    .social {
+      margin-top: 40px;
+      font-size: 16px;
+    }
+
+    .social a {
+      color: #4fc3f7;
+      text-decoration: none;
+      display: block;
+      margin: 5px 0;
+    }
+
+    .social a:hover {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 600px) {
+      input, button {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Penghitung Winrate MLBB</h1>
+  <p>Masukin winrate sekarang, jumlah match, dan target WR</p>
+
+  <input type="number" id="currentWR" placeholder="Winrate lu sekarang (%)">
+  <input type="number" id="totalMatch" placeholder="Match lu sekarang">
+  <input type="number" id="targetWR" placeholder="Target winrate (%)">
+
+  <button onclick="hitungTarget()">Hitung</button>
+
+  <div class="result" id="output"></div>
+
+  <div class="social">
+    <p>IG Admin: <a href="https://www.instagram.com/christwjyy" target="_blank">@christwjyy</a></p>
+    <p>TikTok Admin: <a href="https://www.tiktok.com/@ucokfvyk" target="_blank">@ucokfvyk</a></p>
+  </div>
+
+  <script>
+    function hitungTarget() {
+      let wrNow = parseFloat(document.getElementById("currentWR").value);
+      let total = parseInt(document.getElementById("totalMatch").value);
+      let wrTarget = parseFloat(document.getElementById("targetWR").value);
+
+      if (isNaN(wrNow) || isNaN(total) || isNaN(wrTarget) || wrNow < 0 || wrNow > 100 || wrTarget > 100 || total <= 0) {
+        document.getElementById("output").innerText = "Input tidak valid!";
+        return;
+      }
+
+      if (wrTarget === 100) {
+        document.getElementById("output").innerText = "Ga mungkin bisa kocak, masa mau win terus sampe kiamat?";
+        return;
+      }
+
+      if (wrTarget <= wrNow) {
+        document.getElementById("output").innerText = "WR lu udah di atas target, santai aja bos!";
+        return;
+      }
+
+      let winNow = (wrNow / 100) * total;
+      let winNeeded = (wrTarget * total - 100 * winNow) / (100 - wrTarget);
+      let winNeededRounded = Math.ceil(winNeeded);
+
+      document.getElementById("output").innerText =
+        `Kamu butuh ${winNeededRounded} kemenangan berturut-turut tanpa kalah untuk mencapai ${wrTarget}% WR.`;
+    }
+  </script>
+</body>
+</html>
